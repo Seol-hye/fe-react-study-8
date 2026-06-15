@@ -24,6 +24,9 @@ function NewsBlog() {
     let [modalFlag, setModalFlag] = useState(false);
 
 
+    //Modal 창에 전달할 선택한 뉴스 포스팅의 관련 정보
+    let [selectedTitle, setSelectedTitle] = useState('');
+    let [selectedLikeCount, setSelectedLikeCount] = useState(0);
 
 
     return (
@@ -41,7 +44,12 @@ function NewsBlog() {
                     return (
                         <div className='post-list' key={index}>
                             <h4 onClick={() => {
-                                setModalFlag(!modalFlag);
+
+                                setModalFlag(!modalFlag); //모달창 표시 여부 On/Off   true/false 
+                                //어떤 뉴스를 눌렀는지 정보 -> state 저장 -> Modal props 전달
+                                setSelectedTitle(item);
+                                setSelectedLikeCount(likeCountArr[index]);
+
                             }}>{news[index]} <span onClick={(event) => {
                                 event.stopPropagation(); //이벤트 발생을 추가로 전파(전달)하는 것을 stop!
 
@@ -58,59 +66,11 @@ function NewsBlog() {
             }
 
 
-
-            {/* <div className='post-list'>
-                <h4 onClick={()=>{
-
-                    setModalFlag( !modalFlag );
-
-                }}>{news[0]} <span onClick={(event)=>{
-                    event.stopPropagation(); //이벤트 발생을 추가로 전파(전달)하는 것을 stop!
-
-                    //배열에 존재하는 값 변경 -> 재렌더링
-                    let temp = [...likeCountArr];
-                    temp[0] += 1;
-                    setLikeCountArr(temp);
-
-                }}>❤</span> {likeCountArr[0]}  </h4>
-                <p>내용자리</p>
-            </div>
-
-            <div className='post-list'>
-                <h4>{news[1]} <span onClick={(event)=>{
-                    //event.preventDefault();
-                    event.stopPropagation(); //이벤트 발생을 추가로 전파(전달)하는 것을 stop!
-                    
-                    //배열에 존재하는 값 변경 -> 재렌더링
-                    let temp = [...likeCountArr];
-                    temp[1] += 1;
-                    setLikeCountArr(temp);
-
-                }}>❤</span> {likeCountArr[1]}</h4>
-                <p>내용자리</p>
-            </div>
-
-            <div className='post-list'>
-                <h4>{news[2]} <span onClick={(event)=>{
-                    //event.preventDefault();
-                    event.stopPropagation(); //이벤트 발생을 추가로 전파(전달)하는 것을 stop!
-                    //배열에 존재하는 값 변경 -> 재렌더링
-                    let temp = [...likeCountArr];
-                    temp[2] += 1;
-                    setLikeCountArr(temp);
-
-                }}>❤</span> {likeCountArr[2]}</h4>
-                <p>내용자리</p>
-            </div> */}
-
-            {/* <div className='post-list'>
-                <h4>{news1}</h4>
-                <p>내용자리</p>
-            </div>
-            <div className='post-list'>
-                <h4>{news2}</h4>
-                <p>내용자리</p>
-            </div> */}
+            <button onClick={() => {
+                let temp = [...news];
+                temp[0] = 'Today 긴급 속보';
+                setNews(temp);
+            }}>긴급제목변경</button>
 
 
             {
@@ -118,7 +78,8 @@ function NewsBlog() {
             }
 
             {
-                modalFlag && <Modal />
+                modalFlag && <Modal title={selectedTitle} likeCount={selectedLikeCount}
+                    news={news} setNews={setNews} bgColor={'lightblue'} />
             }
 
 
