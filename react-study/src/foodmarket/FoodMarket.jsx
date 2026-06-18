@@ -88,7 +88,7 @@ function FoodMarket() {
                             package.json
                             "homepage":"/detailServicePath" 상세경로설정
 
-                Vite    :   <img src={process.env.BASE_URL + '/images/food1.jpg'} />
+                Vite    :   <img src={import.meta.env.BASE_URL + '/images/food1.jpg'} />
                             vite.config.js
                             base: "/detailServicePath" 상세경로설정
 
