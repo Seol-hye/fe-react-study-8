@@ -79,7 +79,7 @@ function Detail({ foods }) {
         }, 2000)
     }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         //setTimeout
         //setInterval
         //비동기방식
@@ -87,12 +87,12 @@ function Detail({ foods }) {
         //clearTimeout
         //clearInterval
 
-        const interv = setInterval(()=>{
+        const interv = setInterval(() => {
             console.log('interval');
         }, 1000)
 
         //clean up function
-        return()=>{
+        return () => {
             clearInterval(interv);
         }
     }, [orderCount])
@@ -148,17 +148,23 @@ function Detail({ foods }) {
 
                     <p>
                         <Button variant="dard" onClick={() => {
-                            setOrderCount(orderCount - 1)
+                            setOrderCount(Math.max(0, orderCount - 1));
                         }}>-</Button>
-                        <span> {orderCount} </span>
-                        <Button variant="dard" onClick={() => {
-                            setOrderCount(orderCount + 1)
-                            console.log('onClick() : ' + orderCount);
 
+                        <span> {orderCount} </span>
+
+                        <Button variant="dard" onClick={() => {
+                            if (orderCount < food.stockCount) {
+                                setOrderCount(orderCount + 1);
+                            }
+                            console.log('onClick() : ' + orderCount);
                         }}>+</Button>
                     </p>
-                    <Button variant="primary">주문하기</Button>
-
+                    {
+                        food.stockCount === 0
+                            ? <Button variant="secondary" disabled="true">품절</Button>
+                            : <Button variant="primary">주문하기</Button>
+                    }
                 </Col>
             </Row>
 
